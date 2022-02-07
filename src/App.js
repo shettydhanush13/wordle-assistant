@@ -71,7 +71,6 @@ function App() {
 
   const possibleWords = (one, two, three, four, five, updatedMatched) => {
       let TempResults = [...results]
-      console.log(updatedMatched)
       TempResults = TempResults.filter(e => {
         let valid = false;
         for(let i=0; i< e.length; i++) {
@@ -174,7 +173,8 @@ function App() {
 
   const updateCurrentWord = (value, key, index) => {
     const current = {...currentWord};
-    current[index][key] = value;
+    if(key === 'color' && current[index][key] === value) current[index][key] = 'gray'
+    else current[index][key] = value;
     setCurrentWord(current);
     if(index < 4) {
       document.getElementById(`input-${index+1}`).focus()
@@ -191,7 +191,7 @@ function App() {
   return (
     <div className="app-container">
       <header>WORDLE ASSISTANT</header>
-      <hr/>
+      <br/><br/>
       <ul className='box-container'>
         {enteredWords.map((word) => <li className='row-container'>
           {Object.keys(word).map(position => <span style={{ backgroundColor: colorMapping[word[position].color] }}>{word[position].letter}</span>)}
@@ -208,8 +208,8 @@ function App() {
               style={{ color: colorMapping[currentWord[letter].color], borderColor: colorMapping[currentWord[letter].color] }}
             />
             <div className='guessColor-container'  onClick={(e) => updateCurrentWord(e.target.id.split('-')[0], 'color', i)}>
-              <div className='guessColor' id={`green-${i}`} style={{ backgroundColor: colorMapping['green'] }}></div>
-              <div className='guessColor' id={`orange-${i}`} style={{ backgroundColor: colorMapping['orange'] }}></div>
+              <div className={`guessColor`} id={`green-${i}`} style={{ backgroundColor: colorMapping['green'] }}></div>
+              <div className={`guessColor`} id={`orange-${i}`} style={{ backgroundColor: colorMapping['orange'] }}></div>
             </div>
           </div>)}
         </div>
