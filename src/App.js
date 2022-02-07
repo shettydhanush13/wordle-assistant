@@ -73,9 +73,11 @@ function App() {
       let TempResults = [...results]
       TempResults = TempResults.filter(e => {
         let valid = false;
-        for(let i=0; i< e.length; i++) {
-          if(updatedMatched.includes(e[i])) {
-            valid = true
+        for(let i=0; i < updatedMatched.length; i++) {
+          if(e.split('').includes(updatedMatched[i])) valid = true;
+          else {
+            valid = false;
+            break;
           }
         }
         return valid;
