@@ -7,6 +7,7 @@ function App() {
 
   const [wordOfTheDay, setWordOfTheDay] = useState('');
   const [guessedWords, setGuessedWords] = useState([])
+  const [matchedLetters, setmatchedLetters] = useState([])
   const [enteredWords, setEnteredWords] = useState([{
       0: { letter: '', color: 'lightGray' },
       1: { letter: '', color: 'lightGray' },
@@ -68,14 +69,24 @@ function App() {
     { yes: [], no: [] }
 ])
 
-  const possibleWords = (one, two, three, four, five) => {
-      let results = []
-      results = words.filter(e => (one.yes.length > 0 ? one.yes.includes(e[0]) : true) && (one.no.length > 0 ? !(one.no.includes(e[0])) : true))
-      results = results.filter(e => (two.yes.length > 0 ? two.yes.includes(e[1]) : true) && (two.no.length > 0 ? !(two.no.includes(e[1])) : true))
-      results = results.filter(e => (three.yes.length > 0 ? three.yes.includes(e[2]) : true) && (three.no.length > 0 ? !(three.no.includes(e[2])) : true))
-      results = results.filter(e => (four.yes.length > 0 ? four.yes.includes(e[3]) : true) && (four.no.length > 0 ? !(four.no.includes(e[3])) : true))
-      results = results.filter(e => (five.yes.length > 0 ? five.yes.includes(e[4]) : true) && (five.no.length > 0 ? !(five.no.includes(e[4])) : true))
-      return results;
+  const possibleWords = (one, two, three, four, five, updatedMatched) => {
+      let TempResults = [...results]
+      console.log(updatedMatched)
+      TempResults = TempResults.filter(e => {
+        let valid = false;
+        for(let i=0; i< e.length; i++) {
+          if(updatedMatched.includes(e[i])) {
+            valid = true
+          }
+        }
+        return valid;
+      })
+      TempResults = TempResults.filter(e => (one.yes.length > 0 ? one.yes.includes(e[0]) : true) && (one.no.length > 0 ? !(one.no.includes(e[0])) : true))
+      TempResults = TempResults.filter(e => (two.yes.length > 0 ? two.yes.includes(e[1]) : true) && (two.no.length > 0 ? !(two.no.includes(e[1])) : true))
+      TempResults = TempResults.filter(e => (three.yes.length > 0 ? three.yes.includes(e[2]) : true) && (three.no.length > 0 ? !(three.no.includes(e[2])) : true))
+      TempResults = TempResults.filter(e => (four.yes.length > 0 ? four.yes.includes(e[3]) : true) && (four.no.length > 0 ? !(four.no.includes(e[3])) : true))
+      TempResults = TempResults.filter(e => (five.yes.length > 0 ? five.yes.includes(e[4]) : true) && (five.no.length > 0 ? !(five.no.includes(e[4])) : true))
+      return TempResults;
   }
 
   useEffect(() => {
@@ -132,8 +143,10 @@ function App() {
 
   const enterWord = (word, correct, misplaced) => {
       const currPattern = [...pattern]
+      const matched = [...matchedLetters]
       for(let i=0; i < correct.length; i++ ) {
           currPattern[correct[i].position].yes.push(correct[i].letter)
+          matched.push(correct[i].letter)
           const index = word.indexOf(correct[i].letter);
           if (index > -1) {
               word.splice(index, 1);
@@ -141,16 +154,18 @@ function App() {
       }
       for(let i=0; i < misplaced.length; i++ ) {
           currPattern[misplaced[i].position].no.push(misplaced[i].letter)
+          matched.push(misplaced[i].letter)
           const index = word.indexOf(misplaced[i].letter);
           if (index > -1) {
               word.splice(index, 1);
           }
       }
+      const updatedMatched = [...new Set(matched)]
+      setmatchedLetters(updatedMatched)
       for(let i=0; i < 5; i++ ) {
         currPattern[i].no = [ ...currPattern[i].no, ...word]
       }
-      console.log(currPattern)
-      const results = possibleWords(...currPattern)
+      const results = possibleWords(...currPattern, updatedMatched)
       const updatedResults = results.filter(e => !guessedWords.includes(e))
       setResults(updatedResults)
       setpattern(currPattern)
