@@ -1,38 +1,103 @@
-.App {
-  text-align: center;
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 5vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.row-container {
+  display: flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.row-container span {
+  height: 60px;
+  width: 60px;
+  margin: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 24px;
+}
+
+.input-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 2vw;
 }
 
-.App-link {
-  color: #61dafb;
+.input-wrapper button {
+  border: 0;
+  padding: 12px;
+  margin: 12px;
+  background-color: green;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-container {
+  display: flex;
+}
+
+.guess-letter {
+  margin: 0 5px;
+}
+
+.input-container .guessColor-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.input-container .guessColor {
+  height: 20px;
+  width: 40%;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.input-container input {
+  height: 60px;
+  width: 60px;
+  margin: 2px;
+  border: 0;
+  outline: none;
+  border: 2px solid #d3d6da;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2px;
+  font-size: 24px;
+}
+
+.result-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70vw;
+  margin: 2vw auto;
+}
+
+.result-container .result-word {
+  margin: 2px;
+  background-color: #787c7e;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
